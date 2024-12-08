@@ -3,9 +3,13 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 exports.signUp = (req, res, next) => {
-    if (req.body || !req.body.password) {
-        return res.status(400).json()
+    // Vérifier que le mot de passe est fourni et qu'il a au moins 10 caractères
+    if (!req.body.password || req.body.password.length < 10) {
+        return res.status(400).json({
+            message: "Le mot de passe doit contenir au moins 10 caractères."
+        });
     }
+    
     bcrypt
         .hash(req.body.password, 10)
         .then((hash) => {
@@ -23,9 +27,13 @@ exports.signUp = (req, res, next) => {
 };
 
 exports.logIn = (req, res, next) => {
-    if (req.body || !req.body.email) {
-        return res.status(400).json()
+    // Vérifier que le mot de passe est fourni et qu'il a au moins 10 caractères
+    if (!req.body.email || !req.body.password || req.body.password.length < 10) {
+        return res.status(400).json({
+            message: "Le mot de passe doit contenir au moins 10 caractères."
+        });
     }
+
     User.findOne({ email: req.body.email })
         .then((user) => {
             if (!user) {
