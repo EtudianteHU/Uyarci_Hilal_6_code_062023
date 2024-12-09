@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const User = require("../models/user");
 
 exports.signUp = (req, res, next) => {
     // Vérifier que le mot de passe est fourni et qu'il a au moins 10 caractères
